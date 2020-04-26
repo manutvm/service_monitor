@@ -1,0 +1,17 @@
+frp:
+  services:
+    - aggregation-service
+    - bundlestatus-service
+    - computation-service
+    - frp-config-service
+    - hierarchy-service
+    - instrument-management-service
+    - interaction-layer
+    - marketdata-service
+    - nmr-service
+    - pencor-service
+    - portfolio-service
+    - pricing-service
+    - real-world-scenario-service
+    - replication-service
+  checkinterval: 3

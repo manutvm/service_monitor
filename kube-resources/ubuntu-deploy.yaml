@@ -1,0 +1,129 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/component: ubuntu
+    app.kubernetes.io/instance: ubuntu
+    app.kubernetes.io/name: ubuntu
+  name: ubuntu
+  namespace: operations
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: default
+
+---
+apiVersion: v1
+data:
+  wrapper.sh: "#!/bin/bash\n\nfunction check_status(){\n    if [ $? -ne 0 ]; then\n
+    \       echo \"ERROR: Last command failed.\"\n    else\n        echo \"INFO: Last
+    command completed.\"\n    fi\n}\n\necho \"INFO: Updating repository\"\napt-get
+    update\ncheck_status\necho \"INFO: Installing Vim package\"\napt-get install -y
+    vim\ncheck_status\necho \"INFO: Installing pyhon3-pip package\"\napt-get install
+    -y python3-pip\ncheck_status\necho \"INFO: Installing dnsutils package\"\napt-get
+    install -y dnsutils\ncheck_status\necho \"INFO: Installing curl package\"\napt-get
+    install -y curl\ncheck_status\necho \"INFO: Installing Kubernetes package of Python\"\npip3
+    install kubernetes\ncheck_status \necho \"INFO: Sleeping to keep container alive\"\necho
+    \"PS1=\\\"[\\u@\\h \\w]\\$ \\\"\" >> ~/.bashrc\ntouch /ready.txt\nwhile true\ndo
+    \n    sleep 10;\ndone\n"
+kind: ConfigMap
+metadata:
+  namespace: operations
+  name: ubuntu
+  
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ubuntu
+  namespace: operations
+    
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: pods-list
+rules:
+- apiGroups: [""]
+  resources: ["pods","services"]
+  verbs: ["list"]
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["list"]
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: pods-list
+subjects:
+- kind: ServiceAccount
+  name: ubuntu
+  namespace: operations
+roleRef:
+  kind: ClusterRole
+  name: pods-list
+  apiGroup: rbac.authorization.k8s.io
+---
+    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu
+  namespace: operations
+  labels:
+    app: ubuntu
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: ubuntu
+      labels:
+        app: ubuntu
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          key: CriticalAddonsOnly
+          operator: Equal
+          value: dedicated
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: CriticalAddonsOnly
+                operator: In
+                values:
+                - dedicated
+      containers:
+        - name: ubuntu
+          image: ubuntu
+          command: ["/scripts/wrapper.sh"]
+          readinessProbe:
+            exec:
+              command:
+              - ls
+              - /ready.txt
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: ubuntu
+              mountPath: /scripts
+            - name: data-volume
+              mountPath: /data
+      serviceAccount: ubuntu
+      serviceAccountName: ubuntu
+      volumes:
+        - name: ubuntu
+          configMap:
+            name: ubuntu
+            defaultMode: 0744
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: ubuntu   
+  selector:
+    matchLabels:
+      app: ubuntu
