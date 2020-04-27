@@ -32,5 +32,13 @@ for port in service.spec.ports:
         service_url = url
         break
 ```
-7. End Loop (5)
-8. 
+7. Parse the URL and get the JSON response.
+8. Find the dependant services by parsing the Node `details` or `components`
+```python
+try:
+    print(json_object["details"].keys())
+except KeyError:
+    print(json_object["components"].keys())
+```
+9. Iterate over all dependant services and it's component status.
+10. 
