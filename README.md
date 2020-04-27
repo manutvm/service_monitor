@@ -15,4 +15,7 @@ for namespace in namespaces:
 ```
 1. Start Loop
 1. Iterate for all the services namespace wise using the namespace name fetched from Steps(2)
-1. 
+```
+services = v1.list_namespaced_service(namespace=namespace_name).items
+    for service in services:
+```
