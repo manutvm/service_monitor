@@ -4,7 +4,7 @@ Each microoservice is dependant on another microservice in the namespace. The mi
 
 ## Steps(Python Kubernetes Implementation):
 1. START
-1. Get all the namespaces in the cluster(excpet kube-system, kube-public, kube-node-lease, default and velero). We use python kubernetes API client.CoreV1Api().list_namespaces() function for this purpose.
+2. Get all the namespaces in the cluster(excpet kube-system, kube-public, kube-node-lease, default and velero). We use python kubernetes API client.CoreV1Api().list_namespaces() function for this purpose.
 ```python
 namespaces = v1.list_namespace().items
 
@@ -13,14 +13,14 @@ for namespace in namespaces:
         continue
     namespace_name = namespace.metadata.name
 ```
-1. Start Loop
-1. Iterate for all the services namespace wise using the namespace name fetched from Steps(2)
+3. Start Loop
+4. Iterate for all the services namespace wise using the namespace name fetched from Steps(2)
 ```python
 services = v1.list_namespaced_service(namespace=namespace_name).items
     for service in services:
 ```
-1. Start Loop
-1. Iterate over all service port and found the port having /actuator/health endpoint. Fetch the service_url variable with the correct service URL.
+5. Start Loop
+6. Iterate over all service port and found the port having /actuator/health endpoint. Fetch the service_url variable with the correct service URL.
 ```python
 for port in service.spec.ports:
     url = "http://%s.%s.svc.cluster.local:%s/actuator/health" % (
@@ -32,5 +32,5 @@ for port in service.spec.ports:
         service_url = url
         break
 ```
-1. End Loop (5)
-1. 
+7. End Loop (5)
+8. 
