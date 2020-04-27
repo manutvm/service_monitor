@@ -19,3 +19,18 @@ for namespace in namespaces:
 services = v1.list_namespaced_service(namespace=namespace_name).items
     for service in services:
 ```
+1. Start Loop
+1. Iterate over all service port and found the port having /actuator/health endpoint. Fetch the service_url variable with the correct service URL.
+```python
+for port in service.spec.ports:
+    url = "http://%s.%s.svc.cluster.local:%s/actuator/health" % (
+        service.metadata.name, service.metadata.namespace, port.port)
+    response_code, response_message = get_url_contents(url=url)
+    if response_code != 200:
+        continue
+    else:
+        service_url = url
+        break
+```
+1. End Loop (5)
+1. 
