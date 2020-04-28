@@ -3,6 +3,7 @@ import re
 from utils.url_utils import get_url_contents
 from utils.json_utils import parse_json
 
+function check_service_status(service_name,cluster_ip)
 config.load_incluster_config()
 # config.load_kube_config()
 
@@ -38,4 +39,13 @@ for namespace in namespaces:
         try:
             print(json_object["details"].keys())
         except KeyError:
-            print(json_object["components"].keys())
+            continue
+
+        for dep_service in json_object["details"]:
+            dep_serv_name = dep_service
+            dep_serv_status = json_object["details"][dep_service]['status']
+            print("%30s%20s" %
+                  (dep_service, dep_serv_status)
+
+            if dep_serv_status != "UP":
+                check_service_status(service_name=dep_serv_name,)

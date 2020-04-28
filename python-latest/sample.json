@@ -1,0 +1,236 @@
+{
+  "status" : "UP",
+  "details" : {
+    "computationService" : {
+      "status" : "UP",
+      "details" : {
+        "computationService.url" : "http://computation-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 90012270592,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        },
+        "hystrix" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "portfolioService" : {
+      "status" : "UP",
+      "details" : {
+        "portfolioService.url" : "http://portfolio-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 63572738048,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        },
+        "hystrix" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "marketDataService" : {
+      "status" : "UP",
+      "details" : {
+        "marketdataService.url" : "http://marketdata-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 90012344320,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "replicationService" : {
+      "status" : "UP",
+      "details" : {
+        "replication.service.url" : "http://replication-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 49141006336,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        },
+        "hystrix" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "configService" : {
+      "status" : "UP",
+      "details" : {
+        "configService.url" : "http://frp-config-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 63572733952,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        },
+        "hystrix" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "aggregationService" : {
+      "status" : "UP",
+      "details" : {
+        "aggregationService.url" : "http://aggregation-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 90012344320,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        },
+        "hystrix" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "scenarioService" : {
+      "status" : "UP",
+      "details" : {
+        "scenarioService.url" : "http://real-world-scenario-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 63572733952,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        },
+        "hystrix" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "instrumentService" : {
+      "status" : "UP",
+      "details" : {
+        "instrumentService.url" : "http://instrument-management-service:8080",
+        "diskSpace" : {
+          "status" : "UP",
+          "details" : {
+            "total" : 124693463040,
+            "free" : 61413601280,
+            "threshold" : 10485760
+          }
+        },
+        "db" : {
+          "status" : "UP",
+          "details" : {
+            "database" : "PostgreSQL",
+            "hello" : 1
+          }
+        },
+        "refreshScope" : {
+          "status" : "UP"
+        }
+      }
+    },
+    "diskSpace" : {
+      "status" : "UP",
+      "details" : {
+        "total" : 124693463040,
+        "free" : 61413601280,
+        "threshold" : 10485760
+      }
+    },
+    "db" : {
+      "status" : "UP",
+      "details" : {
+        "database" : "PostgreSQL",
+        "hello" : 1
+      }
+    },
+    "refreshScope" : {
+      "status" : "UP"
+    },
+    "hystrix" : {
+      "status" : "UP"
+    }
+  }
+}

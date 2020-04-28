@@ -41,4 +41,5 @@ except KeyError:
     print(json_object["components"].keys())
 ```
 9. Iterate over all dependant services and it's component status.
-10. 
+10. If dependant services are running check the next service from step(6)
+11. If the dependant service is not running, 
