@@ -1,51 +1,31 @@
 from kubernetes import client, config
 import re
 from utils.url_utils import get_url_contents
-from utils.json_utils import parse_json
+import sys
+from data.objects import Service
 
-function check_service_status(service_name,cluster_ip)
-config.load_incluster_config()
-# config.load_kube_config()
 
-v1 = client.CoreV1Api()
-namespaces = v1.list_namespace().items
+def initialize_kube_connection(connection_type):
+    if connection_type == "in_cluster":
+        config.load_incluster_config()
+    elif connection_type == "out_cluster":
+        config.load_kube_config()
 
-for namespace in namespaces:
-    if re.match("^kube|^default|^elastic|^prometheus|^velero", namespace.metadata.name):
-        continue
-    namespace_name = namespace.metadata.name
 
-    print(namespace_name)
-    services = v1.list_namespaced_service(namespace=namespace_name).items
+def service_monitor():
+    v1 = client.CoreV1Api()
+    services_list = []
+    current_namespace = open(
+        "/var/run/secrets/kubernetes.io/serviceaccount/namespace").read()
+
+    services = v1.list_namespaced_service(namespace=current_namespace).items
     for service in services:
-        service_url = None
-        response_message = None
-        print(service.metadata.name)
-        for port in service.spec.ports:
-            # print("%20s%20s%20s%20s" % (port.name, port.port,
-            #                             port.node_port, port.target_port))
-            url = "http://%s.%s.svc.cluster.local:%s/actuator/health" % (
-                service.metadata.name, service.metadata.namespace, port.port)
-            response_code, response_message = get_url_contents(url=url)
-            if response_code != 200:
-                continue
-            else:
-                service_url = url
-                break
-        print(service_url)
-        json_object = parse_json(response_message)
-        if json_object is None:
-            continue
-        try:
-            print(json_object["details"].keys())
-        except KeyError:
-            continue
+        services_list.append(Service(service_meta=service))
 
-        for dep_service in json_object["details"]:
-            dep_serv_name = dep_service
-            dep_serv_status = json_object["details"][dep_service]['status']
-            print("%30s%20s" %
-                  (dep_service, dep_serv_status)
+    for service in services_list:
+        service.get_service_details()
+        service.check_service_status()
 
-            if dep_serv_status != "UP":
-                check_service_status(service_name=dep_serv_name,)
+if __name__ == "__main__":
+    initialize_kube_connection(connection_type=sys.argv[1])
+    service_monitor()
